@@ -6,6 +6,7 @@
     /*获取结束*/
     /*运动函数*/
     function domove(obj, json, endfn) {
+		  clearInterval(obj.timer); //一上来清除定时器防止累加
         /*因为是公用的所以必须需要开启定时器*/
         obj.timer = setInterval(function () {
             /*第二部开始判断速度*/
