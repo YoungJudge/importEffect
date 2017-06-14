@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0">
+    <title>运动框架第一个</title>
+    <script src="js/move1.js"></script>
+</head>
+<style>
+    * {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    body {
+        background: #ccc;
+    }
+
+    .wrap {
+        width: 1000px;
+        background: white;
+        height: 700px;
+        position: absolute;
+        left: 50%;
+        top: 10%;
+        margin-left: -500px;
+        box-shadow: 0px 0px 2px 3px black;
+    }
+
+    .silu {
+        width: 60%;
+        margin: 0 auto;
+        line-height: 30px;
+        font-size: 16px;
+    }
+
+    .yundongbox {
+        width: 90%;
+        height: 350px;
+        border: 1px solid red;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    .div1 {
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        left: 10px;
+        top: 40px;
+        background: red;
+    }
+</style>
+<body>
+<div class="wrap">
+    <p class="silu">
+        Js运动的框架。这个是多值缓慢运动。遇到目的地速度越慢。兼容opacity.<br>
+        创作思路:1.封装成函数。首先必须要确定参数。<br>
+        参数一: 对象.(让谁运动)参数二:JSON包。属性和值得区分。参数三回调函数。<br>
+        我这里时间和速度都没有传递因为是缓慢运动。所以不在乎了。<br>
+        核心:因为是多个属性共同运动，所以必须要共用一个定时器。然后在定时器里面在循环出来JSON包里面的属性
+        第二步：利用公式确定速度快慢:速度就是(目标-每次总共的距离)=剩下的距离/8这样获取到就是递减的速度
+        第三步：因为你不能确定他是往大变化还是往小变化。所以需要判断速度的正负值。
+        第四步：当他超过后就变成目标的位置。
+        第五步：设定开关要是他一直运动就是false要是到了终点就变成了true，当所有的属性都到达了终点。flag就都成了true;然后清除定时器
+        整个效果最关键的就是3步。1.共用定时器。2.速度公式。3.开关
+    </p>
+    <div class="yundongbox">
+        <input id="btn1" type="button" value="运动">
+        <div id="div1" class="div1"></div>
+    </div>
+</div>
+
+</body>
+<script>
+    window.onload = function(){
+        var btn1 = document.getElementById("btn1"); //获取到按钮
+        var div1 = document.getElementById("div1");   //获取到DIV
+        btn1.onclick = function () {
+            domove(div1, {"width": 850, "height": 300, "opacity": 20}, function () {
+                console.log("都结束了")
+            })
+        }
+    }
+</script>
+</html>
