@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>3D折纸效果</title>
+</head>
+<style>
+    *{margin:0px;padding:0px;font-family: "Microsoft YaHei";font-size:16px;}
+    a{text-decoration: none;}
+    .wrap{position:relative;width:300px;margin:0 auto;margin-top:30px;-webkit-transform-style:preserve-3d;perspective: 800px;}
+    .wrap h1{z-index:999;position:relative;width:100%;padding:10px;text-align:center;line-height:30px;font-size:24px;background:#007BB8;color:white;}
+    .wrap div {-webkit-transform-style:preserve-3d;-webkit-transform:rotateX(-120deg);-webkit-transform-origin:top;position:absolute;left:0px;top:51px;width:100%;height:auto;}
+    .wrap div span{border-top:1px dashed white;width:100%;padding:10px;display:block;text-align:center;line-height:30px;background:#007BB8;color:white;}
+    .wrap div span a{width:100%;height:auto;display: block;color:white;}
+    .wrap div.show{-webkit-animation: 2s  show;-webkit-transform: rotateX(0deg);}
+    @-webkit-keyframes show {
+        0%{-webkit-transform: rotateX(-120deg);}
+        25%{-webkit-transform: rotateX(16deg);}
+        50%{-webkit-transform: rotateX(-8deg);}
+        70%{-webkit-transform: rotateX(8deg);}
+        90%{-webkit-transform: rotateX(-4deg);}
+        100%{-webkit-transform: rotateX(0deg);}
+    }
+</style>
+<body>
+ <div class="wrap" id="wrap">
+       <h1>每天必须要练习的JS效果</h1>
+       <div>
+           <span><a href="https://youngjudge.github.io/importEffect/Jsmove/index.html">Js基础版运动指南</a></span>
+           <div>
+               <span><a href="#">第二个JS效果</a></span>
+                <div>
+                    <span><a href="#">第三个JS效果</a></span>
+                    <div>
+                        <span><a href="#">第四个JS效果</a></span>
+                         <div>
+                             <span><a href="#">第五个JS效果</a></span>
+                             <div>
+                                 <span><a href="#">第六个JS效果</a></span>
+                                  <div>
+                                      <span><a href="#">第七个JS效果</a></span>
+                                  </div>
+                             </div>
+                         </div>
+                    </div>
+                </div>
+           </div>
+       </div>
+ </div>
+</body>
+<script>
+    window.onload = function(){
+         for(var i=0;i<document.getElementById("wrap").getElementsByTagName("div").length;i++)
+         {
+             document.getElementById("wrap").getElementsByTagName("div")[i].className = "show";
+         }
+    }
+</script>
+</html>
