@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>鼠标放上去放大</title>
+    <script src="js/move1.js"></script>
+</head>
+<style>
+    *{margin:0px;padding:0px;}
+    .wrap{width:700px;height:700px;border:1px solid #ccc;margin:0 auto;margin-top:100px;position:relative;}
+    .wrap div{position:absolute;left:0px;;top:0px;width:150px;height:150px;font-size:24px;line-height:150px;background:red;text-align:center;color:white;}
+</style>
+<body>
+ <div class="wrap" id="wrap">
+
+ </div>
+</body>
+<script>
+   window.onload = function(){
+
+     var wrap = document.getElementById("wrap");
+     var str = "" ;
+     for(var i=0;i<16;i++)
+     {
+         str += '<div style="left:'+((i%4)*160+35)+'px;'+'top:'+(Math.floor(i/4)*160+35)+'px;'+'">'+i+'</div>';
+     }
+         wrap.innerHTML = str;
+     var length = wrap.getElementsByTagName("div").length;
+     var arr = [] ;
+     for(var m=0;m<length;m++)
+     {
+         arr.push({"left":wrap.getElementsByTagName("div")[m].offsetLeft,"top":wrap.getElementsByTagName("div")[m].offsetTop});
+     }
+     for(var n=0;n<length;n++)
+     {
+         wrap.getElementsByTagName("div")[n].index = n;
+         wrap.getElementsByTagName("div")[n].onmouseover = function(){
+             domove(this,{"width":300,"height":300,"fontSize":48,"lineHeight":300,"opacity":20,"left":arr[this.index].left-75,"top":arr[this.index].top-75},function(){console.log("都结束了")})
+         }
+         wrap.getElementsByTagName("div")[n].onmouseleave = function(){
+             domove(this,{"width":150,"height":150,"fontSize":24,"lineHeight":150,"left":arr[this.index].left,"top":arr[this.index].top,"opacity":100},function(){console.log("都结束了")})
+         }
+
+     }
+
+   }
+</script>
+</html>
