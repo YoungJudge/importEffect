@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>Js滚动到顶部</title>
+</head>
+<style>
+    *{margin:0px;padding:0px;}
+    .top{width:1000px;height:100px;background:red;margin:0 auto;}
+    .header {width:1000px;height:100px;background:black;margin:0 auto;}
+    .header div{margin-top:25px;width:100px;height:50px;float:left;margin-left:80px;background:white;text-align:center;line-height:50px;}
+    .part1,.part2,.part3,.part4,.part5{width:1000px;margin:0 auto;}
+    .part1{height:400px;background:red;}
+    .part2{height:600px;background:blue;}
+    .part3{height:800px;background:yellow;}
+    .part4{height:1000px;background:green;}
+    .part5{height:1200px;background:gold;}
+
+</style>
+<body>
+  <div class="top" id="top"></div>
+ <div class="header" id="header">
+     <div>1</div>
+     <div>2</div>
+     <div>3</div>
+     <div>4</div>
+     <div>5</div>
+ </div>
+  <div class="content" id="content">
+  <div class="part1">第一部分</div>
+  <div class="part2">第二部分</div>
+  <div class="part3">第三部分</div>
+  <div class="part4">第四部分</div>
+  <div class="part5">第五部分</div>
+  </div>
+</body>
+<script>
+    window.onload = function(){
+        var topId = document.getElementById("top");  //获取到头部
+        var nav = document.getElementById("header");  //获取到导航
+        var content = document.getElementById("content");    //获取到内容合计
+        var flag = true;  //开关打开
+        function getStyle(obj,attr)
+        {
+            return obj.currentStyle?obj.currentStyle[attr]:getComputedStyle(obj)[attr];
+        }
+       window.onscroll = function(){
+           var scrollTop = document.documentElement.scrollTop||document.body.scrollTop;
+           if(scrollTop>parseInt(getStyle(topId,"height")))
+           {
+               nav.style["position"] = "fixed";
+               nav.style["left"] = "50%";
+               nav.style["top"] = "0px";
+               nav.style["marginLeft"]="-500px";
+           }else
+           {
+               nav.style["position"] = "static";
+               nav.style["margin"] = "0 auto";
+           }
+       }
+       for(var i=0;i<document.getElementById("header").getElementsByTagName("div").length;i++)
+       {
+           document.getElementById("header").getElementsByTagName("div")[i].index = i ;
+           document.getElementById("header").getElementsByTagName("div")[i].onclick = function(){
+               var index = this.index;
+               if(flag)
+               {
+                   domove(document.getElementById("content").getElementsByTagName("div")[index],index,function(){console.log("都结束了");flag = true;});
+               }
+           }
+       }
+       function getTop(obj)
+       {
+           var Height = 0 ;
+           while(obj)
+           {
+               Height += obj.offsetTop;
+               obj = obj.offsetParent;
+           }
+           return Height;
+
+       }
+       function domove(obj,index,endfn)
+       {
+           clearInterval(obj.timer);
+               obj.timer = setInterval(function(){
+                    flag = false;
+                   if(nav.style["position"] == "fixed")
+                   {
+                       if(index==0)
+                       {
+                          var Target= 0 ;
+                       }else
+                       {
+                           var Target = getTop(obj)-100;
+                       }
+
+                   }else
+                   {
+                       if(index==0)
+                       {
+                           var Target= 0 ;
+                       }else
+                       {
+                           var Target = getTop(obj);
+                       }
+                   }
+                   var first = document.documentElement.scrollTop||document.body.scrollTop;
+                   var speed_1 = (Target-first)/8;
+                   var speed = speed_1>0?Math.ceil(speed_1):Math.floor(speed_1);
+                    var dis = first+speed;
+                   if(dis<=Target&&speed<0||dis>Target&&speed>0)
+                   {
+                       dis = Target;
+                   }
+                   document.documentElement.scrollTop = dis;
+                   document.body.scrollTop = dis;
+                   if(dis==Target)
+                   {
+                       clearInterval(obj.timer);
+                       endfn&&endfn();
+                   }
+               },100)
+       }
+
+    }
+</script>
+</html>
