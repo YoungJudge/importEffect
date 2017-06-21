@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>图片预加载</title>
+</head>
+<style>
+    *{margin:0px;padding:0px;}
+    #div1{text-align:center;line-height:30px;font-size:26px;width:1000px;height:30px;border:1px solid black;position:absolute;left:50%;top:50%;margin-left:-500px;margin-top:-15px;}
+    #div2{position:absolute;left:0px;top:0px;width:50px;height:30px;background:#042047;}
+    #div1text{z-index:999;color:red;display:block;position:absolute;left:50%;top:0px;margin-left:-20px;}
+    #content{display:none;}
+</style>
+<body>
+ <div id="div1">
+  <span id="div1text">0%</span>
+  <div id="div2"></div>
+ </div>
+<div class="content" id="content">
+    <img src="" alt="">
+    <img src="" alt="">
+    <img src="" alt="">
+    <img src="" alt="">
+    <img src="" alt="">
+    <img src="" alt="">
+    <img src="" alt="">
+    <img src="" alt="">
+    <img src="" alt="">
+    <img src="" alt="">
+</div>
+</body>
+<script>
+    window.onload = function(){
+        var arr = [
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1498015717310&di=d061cabd920e28b6ccc3e92af3187f73&imgtype=0&src=http%3A%2F%2Ft1.niutuku.com%2F960%2F45%2F45-74265.jpg",
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1498015717310&di=2748bc1c45bc4f77df402b15715e2e86&imgtype=0&src=http%3A%2F%2Fwww.bz55.com%2Fuploads%2Fallimg%2F150306%2F139-1503061IR8.jpg",
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1498015717310&di=fcf2e71b6b14274e86213e8c31d2f404&imgtype=0&src=http%3A%2F%2Fimg.tuku.cn%2Ffile_big%2F201503%2Fd5dd633177ae41b5bbdc2dd3c0819de7.jpg",
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1498015717310&di=55f0cb389ab16695fd683c837988367f&imgtype=0&src=http%3A%2F%2Fimg.tuku.cn%2Ffile_big%2F201503%2F45292457c6c441e4a509599a96d240e0.jpg",
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1498015717309&di=31bc069c1577ddf83111312d6c41b42f&imgtype=0&src=http%3A%2F%2Fimage.tianjimedia.com%2FuploadImages%2F2013%2F155%2F642I6X213988.jpg",
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1498015717309&di=48a42b60de0d42991aa15415f00d9702&imgtype=0&src=http%3A%2F%2Fpic.90sjimg.com%2Fback_pic%2Fqk%2Fback_origin_pic%2F00%2F01%2F44%2F5132ce53604f5c3e5833805e136f70a3.jpg",
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1498015717308&di=003a59481c6d0386f70c941f55112847&imgtype=0&src=http%3A%2F%2Fimg.tuku.cn%2Ffile_big%2F201503%2Fd8905515d1c046aeba51025f0ea842f0.jpg",
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1498015717308&di=abb30334edbf136bd3cc5865aeeacd23&imgtype=0&src=http%3A%2F%2Fimage.tianjimedia.com%2FuploadImages%2F2013%2F291%2F2M496DYUH0D1.jpg",
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1498015717308&di=fb26546933208a735ab19048aac8f88d&imgtype=0&src=http%3A%2F%2Fimage.tianjimedia.com%2FuploadImages%2F2013%2F155%2F1L2147X32ZJ4.jpg",
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1498015717307&di=9d81709951972d1d453406779f256fe1&imgtype=0&src=http%3A%2F%2Ft1.niutuku.com%2F960%2F30%2F30-71774.jpg"
+        ];
+        var img = new Image();
+        var index = 0 ;
+        var wrap = document.getElementById("div1");  //获取到外壳
+        var Content = document.getElementById("div2");  //获取到内容
+        var Content_Text = document.getElementById("div1text");  //获取到文字
+        //封装获取函数
+        function getStyle(obj,attr)
+        {
+            return obj.currentStyle?obj.currentStyle[attr]:getComputedStyle(obj)[attr];
+        }
+        var Max_width = parseInt(getStyle(wrap,"width"));//获取到最大值
+        //开启定时器
+        timer = setInterval(function(){
+            img.src=arr[index];
+           img.onload = function(){
+               ++index;
+               document.title = index+"/"+arr.length;
+            //获取到百分比
+            var percent = Math.floor((index/arr.length)*100);   //百分比
+            var first = Max_width*percent/100;
+            Content.style["width"] = first+"px";   //宽度
+            Content_Text.innerHTML = percent+"%";   //改变数字
+            //到了以后就消失
+            if(first==Max_width)
+            {
+                clearInterval(timer);
+                wrap.style["display"] = "none";
+                document.getElementById("content").style["display"] = "block";
+                for(var i=0;i<document.getElementById("content").getElementsByTagName("img").length;i++)
+                {
+                    document.getElementById("content").getElementsByTagName("img")[i].src= arr[i];
+                }
+            }
+        }
+
+        },1000)
+
+    }
+</script>
+</html>
