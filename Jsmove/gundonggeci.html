@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>滚动歌词</title>
+</head>
+<style>
+    *{margin:0px;padding:0px;}
+    #div1{position:absolute;left:0px;top:0px;}
+    #div2{position:absolute;left:0px;top:0px;color:red;width:20px;height:20px;overflow: hidden;}
+    #div2 span{width:544px;height:20px;position:absolute;left:0px;top:0px;}
+
+</style>
+<body>
+ <div id="div1">
+     今天是个好天气。一切重头再来。时间来得及。只要肯改变，一切都来得及。
+ </div>
+<div id="div2">
+    <span>今天是个好天气。一切重头再来。时间来得及。只要肯改变，一切都来得及。</span>
+</div>
+</body>
+<script>
+    window.onload = function(){
+        var div2 = document.getElementById("div2");  //获取到DIV2
+        var span1 = div2.getElementsByTagName("span")[0];  // 获取到span
+        var speed = 5;
+        timer = setInterval(function(){
+            div2.style["left"] = div2.offsetLeft+speed+"px";
+            span1.style["left"] = -div2.offsetLeft+"px";
+            if(div2.offsetLeft>= 544)
+            {
+                div2.style["left"] = 0+"px";
+                span1.style["left"] = 0+"px";
+            }
+        },100)
+    }
+</script>
+</html>
