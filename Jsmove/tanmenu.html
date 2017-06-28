@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>弹性运动练习四</title>
+</head>
+<body>
+<style>
+    *{margin:0px;padding:0px;font-family: "Microsoft YaHei";}
+    ul{list-style-type:none;}
+    li{float:left;}
+    #ul1{width:600px;height:50px;position:absolute;left:50%;top:50%;margin-left:-300px;margin-top:-25px;}
+    #ul1 li {width:100px;height:50px;margin-right:50px;background:red;line-height:50px;text-align:center;}
+    #ul1 li#mark{background:blue;color:white;width:100px;height:50px;position:absolute;left:0px;top:0px;overflow: hidden;}
+    #ul1 li#mark ul {width:600px;height:50px;position:absolute;left:0px;top:0px;}
+    #ul1 li#mark ul li {background:blue;}
+</style>
+<ul id="ul1">
+    <li>首页</li>
+    <li>论坛</li>
+    <li>视频</li>
+    <li>交流</li>
+    <!--遮罩层-->
+    <li id="mark">
+        <ul>
+            <li>首页</li>
+            <li>论坛</li>
+            <li>视频</li>
+            <li>交流</li>
+        </ul>
+    </li>
+    <!--遮罩层-->
+</ul>
+</body>
+<script>
+    window.onload = function(){
+       var ul1 = document.getElementById("ul1");   //获取到UL导航
+        var mark = document.getElementById("mark");  // 获取到遮罩层
+        var ul2 = mark.getElementsByTagName("ul")[0];  // 获取到遮罩层里面的内容
+        var length = ul1.children.length-1;    // 获取到个数
+        var timer = null; // 延迟定时器
+        for(var i=0 ;i<length;i++)
+        {
+            ul1.children[i].onmouseover = function(){
+                clearInterval(timer);
+                tanMove(mark,this.offsetLeft);
+            }
+            ul1.children[i].onmouseleave = function(){
+                timer = setTimeout(function(){
+                    tanMove(mark,0);
+                },100)
+            }
+            mark.onmouseover = function(){
+               clearInterval(timer);
+            }
+            mark.onmouseleave = function(){
+                tanMove(mark,0);
+            }
+        }
+        function tanMove(obj,Target)
+        {
+            clearInterval(obj.timer);
+            var speed = 0 ;  // 速度
+            obj.timer = setInterval(function(){
+                speed += (Target-obj.offsetLeft)/8;
+                speed *=0.75;
+                var dis = obj.offsetLeft+speed;
+                if(Math.abs(speed)<1&&Math.abs(Target-dis)<1)
+                {
+                    clearInterval(obj.timer);
+                    obj.style["left"] = Target+"px";
+                    ul2.style["left"] = -obj.offsetLeft+"px";
+                    speed = 0 ;
+                }else
+                {
+                    obj.style["left"] = dis+"px";
+                    ul2.style["left"] = -obj.offsetLeft+"px";
+                }
+            },30)
+        }
+    }
+</script>
+</html>
