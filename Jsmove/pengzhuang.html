@@ -9,17 +9,30 @@
 <body>
 <style>
     *{margin:0px;paading:0px;}
-    #div1{width:50px;height:50px;position:absolute;left:0px;top:0px;border-radius: 50%;background:red;}
+    #div1{width:50px;height:50px;position:absolute;left:0px;top:50px;border-radius: 50%;background:red;}
+
 </style>
+请输入横轴速度:<input type="text" id="text1">
+请输入纵轴速度:<input type="text" id="text2">
+<input type="button" id="btn1" value="开始动起来吧">
 <div id="div1">
 
 </div>
 </body>
 <script>
 window.onload = function(){
+    var text1 = document.getElementById("text1");
+    var text2 = document.getElementById("text2");
+    var btn1 = document.getElementById("btn1");
     var div1 = document.getElementById("div1");
-    var speedX = 5;
-    var speedY = 15;
+    var speedX = 0 ;
+    var speedY = 0;
+    btn1.onclick = function(){
+        clearInterval(div1.timer);
+         speedX = parseInt(text1.value);
+         speedY = parseInt(text2.value);
+        div1.timer = setInterval(pengzhuang,10);
+    }
     function pengzhuang(){
         var disX = div1.offsetLeft+speedX;
         var disY = div1.offsetTop+speedY;
@@ -44,7 +57,7 @@ window.onload = function(){
         div1.style["left"] = disX +"px";
         div1.style["top"] = disY +"px";
     }
-    setInterval(pengzhuang,10);
+
 }
 </script>
 </html>
