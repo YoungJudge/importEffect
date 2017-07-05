@@ -9,18 +9,33 @@
 <style>
     *{margin:0px;padding:0px;}
     #div1{width:100px;height:100px;background:red;position:absolute;left:0px;top:100px;}
+    #div2{width:100px;height:100px;position:absolute;left:400px;top:100px;background:blue;}
+    #div3{width:100px;height:100px;position:absolute;left:700px;top:100px;background:yellow;}
+    #div4{width:100px;height:100px;position:absolute;left:900px;top:100px;background:green;}
     p{text-align:center;font-size:24px;}
 </style>
 <body>
 <input  id="btn1" type="button" value="开始发射">
-<p>玩法说明:鼠标点击按钮的时间越长，大炮的速度越快。反之亦然</p>
+<p>玩法说明:鼠标点击按钮的时间越长，大炮的速度越快。反之亦然,</br>
+当红色方框与底部的蓝色。黄色方框，绿色方框重叠时。即可通关。获取<span style="color:red;">神秘大奖</span>
+</p>
 <div id="div1"></div>
+<div id="div2"></div>
+<div id="div3"></div>
+<div id="div4"></div>
 </body>
 <script>
     window.onload = function(){
         var btn1 = document.getElementById("btn1");
         var div1 = document.getElementById("div1");
-        div1.style["top"] = (document.documentElement.clientHeight-div1.offsetHeight)+"px";
+        var div2 = document.getElementById("div2");
+        var div3 = document.getElementById("div3");
+        var div4 = document.getElementById("div4");
+        for(var i=0;i<document.getElementsByTagName("div").length;i++)
+        {
+            document.getElementsByTagName("div")[i].style["top"] = (document.documentElement.clientHeight-div1.offsetHeight)+"px";
+        }
+
         var flag = true;  //开关
         btn1.onmousedown = function(){
             var timer = new Date();
@@ -30,7 +45,7 @@
                      {
                          var nowtimer = new Date();
                          var speedY = Math.ceil((nowtimer-timer)/1000)*(-50);
-                         var speedX = Math.ceil((nowtimer-timer)/1000)*(20);
+                         var speedX = Math.ceil((nowtimer-timer)/1000)*(17);
                          div1.timer = setInterval(function(){
                              flag = true;  //开开
                              speedY +=5;
@@ -67,7 +82,29 @@
                                  window.alert("你只需要多一点点时间,再来一次吧");
                                  div1.style["top"] = (document.documentElement.clientHeight-div1.offsetHeight)+"px";
                                  div1.style["left"] = "0px";
-                                 flag = fase;  //开开
+
+                             }else if(Math.ceil(disX)==div2.offsetLeft&&disY==div2.offsetTop)
+                             {
+                                 clearInterval(div1.timer);
+                                 console.log(div2.offsetLeft+"||"+disX);
+                                 window.alert("这都能行啊。你强你厉害!!");
+                                 div1.style["top"] = (document.documentElement.clientHeight-div1.offsetHeight)+"px";
+                                 div1.style["left"] = "0px";
+
+                             } else if(Math.ceil(disX)==div3.offsetLeft&&disY==div3.offsetTop)
+                             {
+                                 clearInterval(div1.timer);
+                                 window.alert("这都能行啊。你强你厉害!!");
+                                 div1.style["top"] = (document.documentElement.clientHeight-div1.offsetHeight)+"px";
+                                 div1.style["left"] = "0px";
+
+                             }else if(Math.ceil(disX)==div4.offsetLeft&&disY==div4.offsetTop)
+                             {
+                                 clearInterval(div1.timer);
+                                 window.alert("这都能行啊。你强你厉害!!");
+                                 div1.style["top"] = (document.documentElement.clientHeight-div1.offsetHeight)+"px";
+                                 div1.style["left"] = "0px";
+
                              }
                          },30);
                      }
