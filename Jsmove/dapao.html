@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>小游戏</title>
+</head>
+<style>
+    *{margin:0px;padding:0px;}
+    #div1{width:100px;height:100px;background:red;position:absolute;left:0px;top:100px;}
+    p{text-align:center;font-size:24px;}
+</style>
+<body>
+<input  id="btn1" type="button" value="开始发射">
+<p>玩法说明:鼠标点击按钮的时间越长，大炮的速度越快。反之亦然</p>
+<div id="div1"></div>
+</body>
+<script>
+    window.onload = function(){
+        var btn1 = document.getElementById("btn1");
+        var div1 = document.getElementById("div1");
+        div1.style["top"] = (document.documentElement.clientHeight-div1.offsetHeight)+"px";
+        var flag = true;  //开关
+        btn1.onmousedown = function(){
+            var timer = new Date();
+             flag = !flag;  //取反
+            btn1.onmouseup = function(){
+                     if(!flag)   //取反
+                     {
+                         var nowtimer = new Date();
+                         var speedY = Math.ceil((nowtimer-timer)/1000)*(-50);
+                         var speedX = Math.ceil((nowtimer-timer)/1000)*(20);
+                         div1.timer = setInterval(function(){
+                             flag = true;  //开开
+                             speedY +=5;
+                             var disY = div1.offsetTop +speedY;
+                             var disX = div1.offsetLeft+speedX;
+                             if(disY>document.documentElement.clientHeight-div1.offsetHeight)
+                             {
+                                 disY = document.documentElement.clientHeight-div1.offsetHeight;
+                                 speedY *=-1;
+                                 speedY *=0.75;
+                                 speedX *=0.75;
+                             }else if(disY<0)
+                             {
+                                 disY = 0 ;
+                                 speedY = -1;
+                                 speedY *=0.75;
+                             }
+                             if(disX>document.documentElement.clientWidth-div1.offsetWidth)
+                             {
+                                 disX = document.documentElement.clientWidth-div1.offsetWidth;
+                                 speedX *=-1;
+                                 speedX *=0.75;
+                             }else if(disX<0)
+                             {
+                                 disX = 0 ;
+                                 speedX *=-1;
+                                 speedX *=0.75;
+                             }
+                             div1.style["left"] = disX +"px";
+                             div1.style["top"] = disY +"px";
+                             if(Math.abs(speedX)<=1&&Math.abs(document.documentElement.clientHeight-disY)<=div1.offsetHeight)
+                             {
+                                 clearInterval(div1.timer);
+                                 window.alert("你只需要多一点点时间,再来一次吧");
+                                 div1.style["top"] = (document.documentElement.clientHeight-div1.offsetHeight)+"px";
+                                 div1.style["left"] = "0px";
+                                 flag = fase;  //开开
+                             }
+                         },30);
+                     }
+
+                 }
+            }
+        }
+
+</script>
+</html>
